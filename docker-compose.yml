@@ -1,0 +1,19 @@
+version: '3.5'
+
+services:
+  api:
+    container_name: flask-container
+    build: .
+    env_file:
+      - .env
+    command: "python run.py"
+    ports:
+      - '5000:5000'
+    network_mode: "host"
+
+  redis:
+    image: redis
+    container_name: redis-container
+    ports:
+      - "6379:6379"
+    network_mode: "host"
