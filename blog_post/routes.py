@@ -5,7 +5,7 @@ import multiprocessing
 from flask import jsonify, request, abort
 
 from blog_post import app, cache
-from blog_post.utils import thread_tags, sort_by_element
+from blog_post.utils import thread_tags, sort_by_key
 from blog_post.validators import validate_sort_by, validate_direction
 
 
@@ -41,5 +41,5 @@ def get_posts():
     with multiprocessing.Pool() as pool:
         for subset in pool.imap_unordered(thread_tags, tags):
             response.extend(subset)
-    response = sort_by_element(values=response, element=sort_by, direction=direction, not_duplicated=True)
+    response = sort_by_key(values=response, key=sort_by, direction=direction, delete_duplicated=True)
     return jsonify(response), 200

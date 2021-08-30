@@ -35,15 +35,35 @@ def get(url, params, raise_error=True):
 
 
 def thread_tags(tag):
+    """
+
+    :param tag:
+    :return:
+    """
     ans = get(url="https://api.hatchways.io/assessment/blog/posts", params=dict(tag=tag))
     return ans.get('posts')
 
 
 def remove_duplicated(values):
+    """
+    Remove duplicated values in a list of dictionaries
+
+    :param values: list of dictionaries
+    :return: list of dictionaries without duplicated values
+    """
     return [value for key, value in enumerate(values) if value not in values[key + 1:]]
 
 
-def sort_by_element(values, element='id', direction='asc', not_duplicated=True):
-    if not_duplicated:
+def sort_by_key(values, key='id', direction='asc', delete_duplicated=True):
+    """
+    Sort dictionary by a key
+
+    :param values: list of dictionaries with values
+    :param key: key
+    :param direction:
+    :param delete_duplicated: flag to remove values duplicated
+    :return:
+    """
+    if delete_duplicated:
         values = remove_duplicated(values)
-    return sorted(values, key=lambda i: i[element], reverse=False if direction == 'asc' else False)
+    return sorted(values, key=lambda i: i[key], reverse=False if direction == 'asc' else True)
